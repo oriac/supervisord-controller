@@ -4,11 +4,19 @@ services:
   db:
     image: postgres
 
-  queue:
+  message_broker:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  consumers:
+    build: consumers/
+    command: python consumer.py
+    volumes:
+      - ./consumers:/consumers
+    depends_on:
+      - message_broker
 
   web:
     build: .
@@ -19,4 +27,5 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      - queue
+      - message_broker
+
