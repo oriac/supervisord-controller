@@ -12,7 +12,6 @@ services:
 
   consumers:
     build: consumers/
-    command: python consumer.py
     volumes:
       - ./consumers:/consumers
     depends_on:
